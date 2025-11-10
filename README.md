@@ -16,20 +16,35 @@
 
 ### Структура проекта
 search_engine/
+
 ├── 📁 src/ # Исходный код
+
 │ ├── 📄 ConverterJSON.h/cpp # Работа с JSON файлами
+
 │ ├── 📄 InvertedIndex.h/cpp # Инвертированный индекс
+
 │ ├── 📄 SearchServer.h/cpp # Поисковый сервер
+
 │ └── 📄 main.cpp # Точка входа
+
 ├── 📁 tests/ # Модульные тесты
+
 │ └── 📄 GTest.cpp # Google Test сценарии
+
 ├── 📁 resources/ # Ресурсные файлы
+
 │ ├── 📄 config.json # Конфигурация движка
+
 │ ├── 📄 requests.json # Поисковые запросы
+
 │ ├── 📄 answers.json # Результаты поиска (авто)
+
 │ └── 📄 file00*.txt # Документы для поиска
+
 ├── 📄 CMakeLists.txt # Конфигурация сборки
+
 └── 📄 README.md # Документация
+
 
 text
 
@@ -60,16 +75,26 @@ ctest
 
 
 1. Настройка конфигурации
+   
 Создайте файл resources/config.json:
 
+
 json
+
 {
+
     "config": {
+    
         "name": "ITBoxSearchEngine",
-        "version": "0.1",
+        
+        "version": "3.23",
+        
         "max_responses": 5
+        
     },
+    
     "files": [
+    
         "resources/file001.txt",
         "resources/file002.txt",
         "resources/file003.txt",
@@ -87,46 +112,82 @@ max_responses - максимальное количество результат
 files - пути к индексируемым файлам (хотя бы один файл)
 
 2. Подготовка документов
+   
 Разместите текстовые файлы в папке resources/. Каждый файл должен содержать текст для индексации.
+
 
 Пример документа (resources/file001.txt):
 
+
 text
 milk milk milk milk water water water
+
 3. Создание запросов
+   
 Создайте файл resources/requests.json:
 
-json
-{
-    "requests": [
-        "milk water",
-        "sugar",
-        "london is the capital",
-        "cappuccino"
-    ]
-}
-4. Запуск поиска
- CLion
-Run → Run 'search_engine'
-5. Получение результатов
-Результаты сохраняются в файл resources/answers.json:
 
 json
+
 {
-    "answers": {
-        "request001": {
-            "result": "true",
-            "relevance": [
-                {"docid": 0, "rank": 1.0},
-                {"docid": 1, "rank": 0.7},
-                {"docid": 2, "rank": 0.3}
-            ]
-        },
-        "request002": {
-            "result": "false"
-        }
-    }
+
+    "requests": [
+    
+        "milk water",
+        
+        "sugar",
+        
+        "london is the capital",
+        
+        "cappuccino"
+        
+    ]
+    
 }
+
+4. Запуск поиска
+   
+ CLion
+ 
+Run → Run 'search_engine'
+
+5. Получение результатов
+   
+Результаты сохраняются в файл resources/answers.json:
+
+
+json
+
+{
+
+    "answers": {
+    
+        "request001": {
+        
+            "result": "true",
+            
+            "relevance": [
+            
+                {"docid": 0, "rank": 1.0},
+                
+                {"docid": 1, "rank": 0.7},
+                
+                {"docid": 2, "rank": 0.3}
+                
+            ]
+            
+        },
+        
+        "request002": {
+        
+            "result": "false"
+            
+        }
+        
+    }
+    
+}
+
 🧪 Тестирование
 Проект включает комплексные unit-тесты:
 
@@ -138,8 +199,11 @@ bash
 ./run_tests --gtest_filter="TestCaseInvertedIndex.*"
 
 # Подробный вывод
+
 ./run_tests --gtest_color=yes
+
 Тестовые сценарии
+
 ✅ Индексация документов - проверка построения инвертированного индекса
 
 ✅ Поиск по одному слову - базовый функционал поиска
@@ -153,7 +217,9 @@ bash
 ✅ Сортировка результатов - по релевантности и doc_id
 
 🔧 Алгоритм работы
+
 Фаза 1: Индексация
+
 Загрузка документов - чтение текстовых файлов из config.json
 
 Построение индекса - создание инвертированного индекса
